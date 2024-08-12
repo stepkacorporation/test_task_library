@@ -19,7 +19,7 @@
 - **Django**: Веб-фреймворк для разработки приложения.
 - **Django REST Framework**: Для создания API.
 - **Django Simple History**: Для отслеживания истории изменений.
-- **drf-spectacular/drf-yasg**: Для генерации документации API.
+- **drf-spectacular**: Для генерации документации API.
 - **Docker**: Платформа для контейнеризации приложения.
 - **Docker Compose**: Инструмент для запуска многоконтейнерных приложений.
 
@@ -28,7 +28,7 @@
 1. **Клонируйте репозиторий**:
 
     ```bash
-    git clone https://github.com/ваш_репозиторий/test_task_library.git
+    git clone https://github.com/stepkacorporation/test_task_library.git
     cd test_task_library
     ```
 
@@ -60,4 +60,4 @@
 
     Перейдите по адресу [http://localhost:8000](http://localhost:8000) в вашем браузере.  
     Админ-панель доступна по адресу [http://localhost:8000/admin](http://localhost:8000/admin).  
-    Документация API доступна по адресу [http://localhost:8000/api/schema/](http://localhost:8000/api/schema/)
+    Документация API доступна по адресу [http://localhost:8000/api/v1/schema/swagger-ui/](http://localhost:8000/api/v1/schema/swagger-ui).
