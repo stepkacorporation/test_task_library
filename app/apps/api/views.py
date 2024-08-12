@@ -9,6 +9,10 @@ from .serializers import BookSerializer, BookLoanSerializer, BookLoanDeleteSeria
 
 
 class BookListView(generics.ListAPIView):
+    """
+    Получает список всех книг.
+    """
+    
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
@@ -17,6 +21,10 @@ class BookListView(generics.ListAPIView):
 
 
 class BookLoanCreateView(generics.CreateAPIView):
+    """
+    Создает запись о взятии книги читателем.
+    """
+
     serializer_class = BookLoanSerializer
     permission_classes = [IsAuthenticated]
 
@@ -35,6 +43,10 @@ class BookLoanCreateView(generics.CreateAPIView):
 
 
 class BookLoanDeleteView(generics.DestroyAPIView):
+    """
+    Удаляет запись о возврате книги читателем. (Читатель возвращает книгу)
+    """
+
     serializer_class = BookLoanDeleteSerializer
     permission_classes = [IsAuthenticated]
 
@@ -52,6 +64,10 @@ class BookLoanDeleteView(generics.DestroyAPIView):
 
 
 class BookLoanListView(generics.ListAPIView):
+    """
+    Получает список книг, взятых текущим читателем.
+    """
+
     serializer_class = BookLoanSerializer
     permission_classes = [IsAuthenticated]
 

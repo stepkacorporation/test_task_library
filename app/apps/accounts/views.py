@@ -1,18 +1,20 @@
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponse
 from django.views.generic.edit import FormView
 from django.views import View
-from django.contrib.auth.views import LoginView
-
 
 from .models import CustomUser, Reader, Librarian
-from .forms import UserRegistrationForm, ReaderProfileForm, LibrarianProfileForm, UserLoginForm
+from .forms import UserRegistrationForm, ReaderProfileForm, LibrarianProfileForm
 
 
 class UserRegisterView(FormView):
+    """
+    Представление для регистрации пользователей.
+    """
+    
     template_name = 'accounts/register.html'
     form_class = UserRegistrationForm
     success_url = reverse_lazy('catalog')
@@ -40,6 +42,10 @@ class UserRegisterView(FormView):
 
 
 class ReaderProfileView(View):
+    """
+    Представление для отображения и редактирования профиля читателя.
+    """
+
     def get(self, request: HttpRequest) -> HttpResponse:
         if not hasattr(request.user, 'reader'):
             return redirect('catalog')
@@ -57,6 +63,10 @@ class ReaderProfileView(View):
 
 
 class LibrarianProfileView(View):
+    """
+    Представление для отображения и редактирования профиля библиотекаря.
+    """
+    
     def get(self, request: HttpRequest) -> HttpResponse:
         if not hasattr(request.user, 'librarian'):
             return redirect('catalog')
@@ -71,22 +81,3 @@ class LibrarianProfileView(View):
             form.save()
             return redirect('catalog')
         return render(request, 'accounts/librarian_profile.html', {'form': form})
-
-
-class UserLoginView(LoginView):
-    template_name = 'accounts/login.html'
-    success_url = reverse_lazy('catalog')
-
-    def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        if request.user and request.user.is_authenticated:
-            return redirect('catalog')
-        return super().dispatch(request, *args, *kwargs)
-
-    def form_valid(self, form: UserLoginForm) -> HttpResponse:
-        username = form.cleaned_data['username']
-        password = form.cleaned_data['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(self.request, user)
-            return super().form_valid(form)
-        return self.form_invalid(form)

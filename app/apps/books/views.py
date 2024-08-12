@@ -3,13 +3,19 @@ from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.db.models import Q
-from django.utils import timezone
 
 from apps.accounts.models import Reader, CustomUser
 from .models import Book, BookLoan
 
 
 class CatalogView(LoginRequiredMixin, View):
+    """
+    Отображает каталог книг для текущего пользователя.
+
+    Если пользователь является библиотекарем, перенаправляет на страницу с просроченными книгами. 
+    Для остальных пользователей отображает список всех книг, доступных для взятия, и книги, которые они уже взяли.
+    """
+ 
     template_name = 'books/catalog.html'
 
     def get(self, request, *args, **kwargs):
@@ -58,6 +64,10 @@ class CatalogView(LoginRequiredMixin, View):
 
 
 class MyBooksView(LoginRequiredMixin, View):
+    """
+    Отображает список книг, взятых текущим пользователем.
+    """
+    
     template_name = 'books/my_books.html'
 
     def get(self, request, *args, **kwargs):
@@ -91,6 +101,10 @@ class MyBooksView(LoginRequiredMixin, View):
     
 
 class OverdueBooksView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    Отображает список просроченных книг для библиотекаря.
+    """
+
     model = BookLoan
     template_name = 'books/overdue_books.html'
     context_object_name = 'overdue_data'
