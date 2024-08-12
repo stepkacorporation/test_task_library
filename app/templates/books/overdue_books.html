@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Список должников</h1>
+
+    {% if not overdue_data %}
+        <p>Список должников пуст</p>
+    {% else %}
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Имя пользователя</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Адрес</th>
+                    <th>Название книги</th>
+                    <th>Дата получения</th>
+                    <th>Количество дней на руках</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in overdue_data %}
+                <tr>
+                    <td>{{ loan.username }}</td>
+                    <td>{{ loan.first_name }}</td>
+                    <td>{{ loan.last_name }}</td>
+                    <td>{{ loan.address }}</td>
+                    <td>{{ loan.book_title }}</td>
+                    <td>{{ loan.loan_date }}</td>
+                    <td>{{ loan.days_on_hand }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

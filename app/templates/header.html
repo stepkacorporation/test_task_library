@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">    
+      <a class="navbar-brand" href="{% url 'catalog' %}">Библиотека</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Navigation switch">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <a class="nav-link" href="{% url 'admin:index' %}">Админка</a>
+                    {% endif %}
+                    {% if user.role == 'L' %}
+                        <a class="nav-link" href="{% url 'librarian_profile' %}">Профиль</a>
+                    {% elif user.role == 'R' %}
+                        <a class="nav-link" href="{% url 'reader_profile' %}">Профиль</a>
+                        <a class="nav-link" href="{% url 'my_books' %}">Мои книги</a>
+                    {% endif %}
+                    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Вход</a> /
+                <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
+      </div>
+    </div>
+</nav>

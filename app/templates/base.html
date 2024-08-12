@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{% block title %}{% endblock title %}</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+        <!-- Bootstrap -->
+        <link href="{% static "common/css/bootstrap.min.css" %}" type="text/css" rel="stylesheet">
+        <script src="{% static "common/js/bootstrap.bundle.min.js" %}"></script>
+        
+        {% block head %}
+        {% endblock head %}
+
+    </head>
+
+    <body class="d-flex flex-column min-vh-100">
+
+        <header>
+            {% include "header.html" %}
+
+            {% block header %}
+            {% endblock header %}
+        </header>
+
+        <main style="min-height: 100vh;" class="d-flex">
+            <div class="mt-4 mb-4 flex-grow-1">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </main>
+        
+        <footer>
+            {% include "footer.html" %}
+        </footer>
+
+        <script>
+            function copyToClipboard(text, button) {
+                const tempInput = document.createElement('input');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                
+                tempInput.select();
+                document.execCommand('copy');
+                
+                document.body.removeChild(tempInput);
+                
+                const iconCopy = button.querySelector('.icon-copy');
+                const iconCheck = button.querySelector('.icon-check');
+                iconCopy.classList.add('d-none');
+                iconCheck.classList.remove('d-none');
+                
+                setTimeout(() => {
+                    iconCheck.classList.add('d-none');
+                    iconCopy.classList.remove('d-none');
+                }, 2000);
+            }
+        </script>
+        {% block scripts %}
+        {% endblock scripts %}
+    </body>
+</html>
