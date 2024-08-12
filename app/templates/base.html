@@ -39,25 +39,22 @@
         </footer>
 
         <script>
-            function copyToClipboard(text, button) {
-                const tempInput = document.createElement('input');
-                tempInput.value = text;
-                document.body.appendChild(tempInput);
-                
-                tempInput.select();
-                document.execCommand('copy');
-                
-                document.body.removeChild(tempInput);
-                
-                const iconCopy = button.querySelector('.icon-copy');
-                const iconCheck = button.querySelector('.icon-check');
-                iconCopy.classList.add('d-none');
-                iconCheck.classList.remove('d-none');
-                
-                setTimeout(() => {
-                    iconCheck.classList.add('d-none');
-                    iconCopy.classList.remove('d-none');
-                }, 2000);
+            async function copyToClipboard(text, button) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    
+                    const iconCopy = button.querySelector('.icon-copy');
+                    const iconCheck = button.querySelector('.icon-check');
+                    iconCopy.classList.add('d-none');
+                    iconCheck.classList.remove('d-none');
+                    
+                    setTimeout(() => {
+                        iconCheck.classList.add('d-none');
+                        iconCopy.classList.remove('d-none');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Ошибка при копировании в буфер обмена: ', err);
+                }
             }
         </script>
         {% block scripts %}
